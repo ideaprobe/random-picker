@@ -10,6 +10,7 @@ A beautiful and interactive random wheel picker built with Next.js, featuring sm
 - 📱 **Responsive**: Fully optimized for mobile and desktop devices
 - ⚡ **Fast**: Built with Next.js 16 and React 19
 - 🎭 **Animations**: Powered by Framer Motion for fluid transitions
+- 🔍 **SEO Optimized**: Complete SEO setup with sitemap, robots.txt, and structured data
 
 ## 🚀 Getting Started
 
@@ -43,6 +44,7 @@ Open [http://localhost:3758](http://localhost:3758) with your browser to see the
 - **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Internationalization**: [next-intl](https://next-intl-docs.vercel.app/)
+- **SEO**: [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
 - **Package Manager**: [pnpm](https://pnpm.io/)
 
 ## 📁 Project Structure
@@ -54,14 +56,19 @@ random-picker/
 │   │   ├── layout.tsx     # Locale-specific layout
 │   │   └── page.tsx       # Main wheel component
 │   ├── layout.tsx         # Root layout
-│   └── globals.css        # Global styles
+│   ├── manifest.ts        # PWA manifest
+│   └── icon.svg           # App icon
 ├── i18n/
 │   ├── routing.ts         # i18n routing configuration
 │   └── request.ts         # i18n request configuration
 ├── messages/
 │   ├── en.json           # English translations
 │   └── zh.json           # Chinese translations
+├── docs/
+│   ├── SEO.md            # SEO optimization guide
+│   └── DEPLOYMENT.md     # Deployment guide
 ├── middleware.ts         # Language detection middleware
+├── next-sitemap.config.js # Sitemap configuration
 └── next.config.ts        # Next.js configuration
 ```
 
@@ -80,7 +87,39 @@ Supported languages:
 - English (en)
 - Chinese (zh)
 
+## 🔍 SEO Features
+
+- ✅ Dynamic meta tags for each language
+- ✅ Automatic sitemap generation
+- ✅ robots.txt configuration
+- ✅ Structured data (JSON-LD)
+- ✅ Open Graph and Twitter Card tags
+- ✅ hreflang tags for language alternatives
+- ✅ Canonical URLs
+
+### Generate Sitemap
+
+```bash
+# Build project (automatically generates sitemap)
+pnpm build
+
+# Or manually generate
+pnpm postbuild
+```
+
+Generated files:
+- `public/sitemap.xml`
+- `public/robots.txt`
+
 ## 📝 Configuration
+
+### Environment Variables
+
+Create a `.env.local` file:
+
+```bash
+NEXT_PUBLIC_BASE_URL=https://random-picker-tau.vercel.app
+```
 
 ### Port Configuration
 
@@ -117,6 +156,38 @@ pnpm build
 pnpm start
 ```
 
+### Post-Deployment
+
+1. Verify sitemap: `https://your-domain.com/sitemap.xml`
+2. Verify robots.txt: `https://your-domain.com/robots.txt`
+3. Submit sitemap to search engines
+4. Run SEO check: `pnpm seo-check`
+
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed deployment guide.
+
+## 🧪 Scripts
+
+```bash
+# Development
+pnpm dev              # Start development server
+
+# Production
+pnpm build            # Build for production (includes sitemap generation)
+pnpm start            # Start production server
+
+# SEO
+pnpm postbuild        # Generate sitemap and robots.txt
+pnpm seo-check        # Run SEO validation checks
+
+# Code Quality
+pnpm lint             # Run ESLint
+```
+
+## 📚 Documentation
+
+- [SEO Optimization Guide](docs/SEO.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+
 ## 📄 License
 
 MIT
@@ -124,3 +195,9 @@ MIT
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
+
+## 🔗 Links
+
+- **Live Demo**: [https://random-picker-tau.vercel.app](https://random-picker-tau.vercel.app)
+- **Documentation**: See `/docs` folder
+- **Issues**: [GitHub Issues](https://github.com/yourusername/random-picker/issues)

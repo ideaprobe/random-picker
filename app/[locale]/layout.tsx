@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,10 +30,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
 
-  const title = locale === "zh" 
+  const title = locale === "zh"
     ? "随机轮盘 - 在线随机抽取工具 | Random Wheel"
     : "Random Wheel - Online Random Picker Tool | 随机轮盘";
-  
+
   const description = locale === "zh"
     ? "免费在线随机轮盘抽取工具，支持自定义选项，流畅动画效果。适用于抽奖、决策、游戏等场景。无需下载，即开即用。"
     : "Free online random wheel picker tool with customizable options and smooth animations. Perfect for raffles, decision making, and games. No download required.";
@@ -134,6 +136,8 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

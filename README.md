@@ -45,6 +45,7 @@ Open [http://localhost:3758](http://localhost:3758) with your browser to see the
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Internationalization**: [next-intl](https://next-intl-docs.vercel.app/)
 - **SEO**: [next-sitemap](https://github.com/iamvishnusankar/next-sitemap)
+- **Analytics**: [Vercel Analytics](https://vercel.com/analytics) & [Speed Insights](https://vercel.com/docs/speed-insights)
 - **Package Manager**: [pnpm](https://pnpm.io/)
 
 ## 📁 Project Structure
@@ -87,8 +88,9 @@ Supported languages:
 - English (en)
 - Chinese (zh)
 
-## 🔍 SEO Features
+## 🔍 SEO & Analytics Features
 
+### SEO
 - ✅ Dynamic meta tags for each language
 - ✅ Automatic sitemap generation
 - ✅ robots.txt configuration
@@ -96,6 +98,12 @@ Supported languages:
 - ✅ Open Graph and Twitter Card tags
 - ✅ hreflang tags for language alternatives
 - ✅ Canonical URLs
+
+### Analytics
+- ✅ Vercel Analytics - Track page views and user behavior
+- ✅ Vercel Speed Insights - Monitor Core Web Vitals
+- ✅ Real-time performance monitoring
+- ✅ Automatic data collection (no configuration needed)
 
 ### Generate Sitemap
 
@@ -162,8 +170,19 @@ pnpm start
 2. Verify robots.txt: `https://your-domain.com/robots.txt`
 3. Submit sitemap to search engines
 4. Run SEO check: `pnpm seo-check`
+5. Enable Analytics in Vercel Dashboard (automatic)
 
 See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for detailed deployment guide.
+
+## 📊 Analytics
+
+Vercel Analytics and Speed Insights are automatically enabled when deployed to Vercel:
+
+- **Analytics**: View in Vercel Dashboard → Your Project → Analytics
+- **Speed Insights**: View in Vercel Dashboard → Your Project → Speed Insights
+- **Core Web Vitals**: Automatically tracked (LCP, FID, CLS)
+
+No additional configuration required!
 
 ## 🧪 Scripts
 
@@ -185,8 +204,10 @@ pnpm lint             # Run ESLint
 
 ## 📚 Documentation
 
-- [SEO Optimization Guide](docs/SEO.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Quick Start Guide](docs/QUICK_START.md) - 5 分钟快速开始
+- [SEO Optimization Guide](docs/SEO.md) - SEO 优化指南
+- [Deployment Guide](docs/DEPLOYMENT.md) - 部署指南
+- [Analytics Guide](docs/ANALYTICS.md) - 数据分析指南
 
 ## 📄 License
 

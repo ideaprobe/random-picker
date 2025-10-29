@@ -1,0 +1,51 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGradient)" stroke="white" stroke-width="3"/>
+  
+  <!-- Wheel segments -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667EEA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764BA2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="segment1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C44569;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="segment2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4FACFE;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00F2FE;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="segment3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#43E97B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38F9D7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="segment4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FA709A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FEE140;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="segment5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A8EDEA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FED6E3;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="segment6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD89B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#19547B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 6 segments -->
+  <path d="M 100 100 L 100 5 A 95 95 0 0 1 182.4 50 Z" fill="url(#segment1)" stroke="white" stroke-width="2"/>
+  <path d="M 100 100 L 182.4 50 A 95 95 0 0 1 182.4 150 Z" fill="url(#segment2)" stroke="white" stroke-width="2"/>
+  <path d="M 100 100 L 182.4 150 A 95 95 0 0 1 100 195 Z" fill="url(#segment3)" stroke="white" stroke-width="2"/>
+  <path d="M 100 100 L 100 195 A 95 95 0 0 1 17.6 150 Z" fill="url(#segment4)" stroke="white" stroke-width="2"/>
+  <path d="M 100 100 L 17.6 150 A 95 95 0 0 1 17.6 50 Z" fill="url(#segment5)" stroke="white" stroke-width="2"/>
+  <path d="M 100 100 L 17.6 50 A 95 95 0 0 1 100 5 Z" fill="url(#segment6)" stroke="white" stroke-width="2"/>
+  
+  <!-- Center circle -->
+  <circle cx="100" cy="100" r="25" fill="white" stroke="#E5E7EB" stroke-width="2"/>
+  <circle cx="100" cy="100" r="15" fill="#F59E0B"/>
+  
+  <!-- Pointer at top -->
+  <path d="M 100 0 L 90 15 L 110 15 Z" fill="#EF4444"/>
+</svg>

@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Random Wheel | 随机轮盘",
-  description: "A simple random wheel picker tool | 一个简单的随机轮盘抽取工具",
+  description: "A beautiful and interactive random wheel picker with smooth animations | 一个精美的交互式随机轮盘抽取工具",
+  keywords: ["random wheel", "picker", "spinner", "random selector", "轮盘", "随机抽取"],
+  authors: [{ name: "Random Wheel" }],
+  openGraph: {
+    title: "Random Wheel | 随机轮盘",
+    description: "A beautiful and interactive random wheel picker",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

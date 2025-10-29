@@ -1,0 +1,19 @@
+{
+  "title": "Random Wheel",
+  "spinning": "Spinning...",
+  "startSpin": "Spin",
+  "result": "Result:",
+  "customList": "Custom List",
+  "inputPlaceholder": "Enter new option",
+  "add": "Add",
+  "remove": "Remove",
+  "itemCount": "{count} options (max 12, min 2)",
+  "defaultItems": {
+    "item1": "Option 1",
+    "item2": "Option 2",
+    "item3": "Option 3",
+    "item4": "Option 4",
+    "item5": "Option 5",
+    "item6": "Option 6"
+  }
+}

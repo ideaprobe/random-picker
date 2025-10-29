@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "随机轮盘",
-  description: "一个简单的随机轮盘抽取工具",
+  title: "Random Wheel | 随机轮盘",
+  description: "A simple random wheel picker tool | 一个简单的随机轮盘抽取工具",
 };
 
 export default function RootLayout({
@@ -22,13 +22,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+  return children;
 }

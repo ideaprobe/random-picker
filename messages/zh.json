@@ -1,0 +1,19 @@
+{
+  "title": "随机轮盘",
+  "spinning": "旋转中...",
+  "startSpin": "开始抽取",
+  "result": "抽取结果：",
+  "customList": "自定义列表",
+  "inputPlaceholder": "输入新选项",
+  "add": "添加",
+  "remove": "删除",
+  "itemCount": "当前 {count} 个选项（最多 12 个，最少 2 个）",
+  "defaultItems": {
+    "item1": "选项 1",
+    "item2": "选项 2",
+    "item3": "选项 3",
+    "item4": "选项 4",
+    "item5": "选项 5",
+    "item6": "选项 6"
+  }
+}

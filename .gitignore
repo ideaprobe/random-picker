@@ -16,9 +16,9 @@
 # production
 /build
 
-# next-sitemap generated files
-/public/sitemap*.xml
-/public/robots.txt
+# next-sitemap generated files (keeping manual versions)
+# /public/sitemap*.xml
+# /public/robots.txt
 
 # misc
 .DS_Store

@@ -39,10 +39,15 @@ module.exports = {
   // 自动生成最后修改时间
   autoLastmod: true,
 
-  // 排除不需要的路径
+  // 自定义路径转换
   transform: async (config, path) => {
-    // 只包含语言路由
-    if (path === '/en' || path === '/zh') {
+    // 排除不需要的路径
+    if (path.includes('/_not-found') || path.includes('/icon') || path.includes('/manifest')) {
+      return null;
+    }
+
+    // 包含语言路由
+    if (path.includes('/en') || path.includes('/zh')) {
       return {
         loc: path,
         changefreq: config.changefreq,
@@ -52,7 +57,12 @@ module.exports = {
       };
     }
 
-    // 排除其他路径
-    return null;
+    // 默认返回
+    return {
+      loc: path,
+      changefreq: config.changefreq,
+      priority: config.priority,
+      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
+    };
   },
 };

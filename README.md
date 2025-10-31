@@ -107,19 +107,13 @@ Supported languages:
 - ✅ Real-time performance monitoring
 - ✅ Automatic data collection (no configuration needed)
 
-### Generate Sitemap
+### Sitemap & Robots.txt
 
-```bash
-# Build project (automatically generates sitemap)
-pnpm build
+已手动配置并提交到代码库：
+- `public/sitemap.xml` - 包含所有语言版本和 hreflang 标签
+- `public/robots.txt` - 爬虫规则配置
 
-# Or manually generate
-pnpm postbuild
-```
-
-Generated files:
-- `public/sitemap.xml`
-- `public/robots.txt`
+这些文件会随代码一起部署，无需额外生成。
 
 ## 📝 Configuration
 

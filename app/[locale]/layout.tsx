@@ -42,15 +42,19 @@ export async function generateMetadata({
     ? ["随机轮盘", "在线抽奖", "随机选择器", "转盘抽奖", "决策工具", "随机抽取", "幸运转盘", "抽奖工具"]
     : ["random wheel", "wheel spinner", "random picker", "decision maker", "raffle wheel", "spin the wheel", "random selector", "lucky wheel"];
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://random-picker-tau.vercel.app";
+
   return {
     title,
     description,
     keywords,
+    metadataBase: new URL(baseUrl),
     alternates: {
       canonical: `/${locale}`,
       languages: {
-        en: "/en",
-        zh: "/zh",
+        en: `${baseUrl}/en`,
+        zh: `${baseUrl}/zh`,
+        "x-default": `${baseUrl}/en`,
       },
     },
     openGraph: {
@@ -103,9 +107,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <head>
-        <link rel="alternate" hrefLang="en" href="/en" />
-        <link rel="alternate" hrefLang="zh" href="/zh" />
-        <link rel="alternate" hrefLang="x-default" href="/en" />
+        <meta name="description" content={locale === "zh" 
+          ? "免费在线随机轮盘抽取工具，支持自定义选项，流畅动画效果。适用于抽奖、决策、游戏等场景。无需下载，即开即用。"
+          : "Free online random wheel picker tool with customizable options and smooth animations. Perfect for raffles, decision making, and games. No download required."
+        } />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

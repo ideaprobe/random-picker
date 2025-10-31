@@ -1,4 +1,8 @@
 {
     "kiroAgent.configureMCP": "Disabled",
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "i18n-ally.localesPaths": [
+        "i18n",
+        "messages"
+    ]
 }

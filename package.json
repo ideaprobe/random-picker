@@ -6,6 +6,7 @@
     "dev": "next dev -p 3758",
     "build": "next build && next-sitemap",
     "start": "next start",
+    "analyze": "ANALYZE=true next build --webpack",
     "lint": "eslint",
     "postbuild": "next-sitemap",
     "seo-check": "node scripts/seo-check.js"
@@ -21,6 +22,7 @@
     "react-dom": "19.2.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.0.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

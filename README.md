@@ -184,11 +184,14 @@ No additional configuration required!
 
 ```bash
 # Development
-pnpm dev              # Start development server
+pnpm dev              # Start development server (port 3758)
 
 # Production
 pnpm build            # Build for production (includes sitemap generation)
 pnpm start            # Start production server
+
+# Analysis
+pnpm analyze          # Analyze bundle size with visual report
 
 # SEO
 pnpm postbuild        # Generate sitemap and robots.txt
@@ -202,8 +205,12 @@ pnpm lint             # Run ESLint
 
 - [Quick Start Guide](docs/QUICK_START.md) - 5 分钟快速开始
 - [SEO Optimization Guide](docs/SEO.md) - SEO 优化指南
+- [SEO Fixes](docs/SEO_FIXES.md) - SEO 问题修复说明
 - [Deployment Guide](docs/DEPLOYMENT.md) - 部署指南
 - [Analytics Guide](docs/ANALYTICS.md) - 数据分析指南
+- [Performance Guide](docs/PERFORMANCE.md) - 性能优化指南
+- [Bundle Analysis](docs/BUNDLE_ANALYSIS.md) - 包大小分析
+- [Features Overview](docs/FEATURES.md) - 功能特性总览
 - [Features Overview](docs/FEATURES.md) - 功能特性总览
 - [Migration Guide](docs/MIGRATION.md) - Next.js 16 迁移指南
 

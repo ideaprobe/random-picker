@@ -271,19 +271,28 @@ https://pagespeed.web.dev/analysis?url=https://random-picker-tau.vercel.app
 
 ### 性能分析工具
 
-#### webpack-bundle-analyzer
+#### Bundle Analyzer（已配置）
+✅ 已集成到项目中
+
+**使用方法**：
 ```bash
-# 安装
-pnpm add -D @next/bundle-analyzer
-
-# 配置 next.config.ts
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
-
-# 运行分析
-ANALYZE=true pnpm build
+# 分析包大小
+pnpm analyze
 ```
+
+这会：
+1. 使用 Webpack 构建生产版本
+2. 生成三个分析报告：
+   - `.next/analyze/client.html` - 客户端包
+   - `.next/analyze/nodejs.html` - Node.js 包
+   - `.next/analyze/edge.html` - Edge 包
+3. 手动打开 HTML 文件查看报告
+
+**查看内容**：
+- 📦 每个包的大小
+- 🔍 依赖关系树
+- 📊 可视化图表
+- 💡 优化建议
 
 ## 💡 最佳实践
 

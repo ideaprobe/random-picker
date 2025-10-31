@@ -1,24 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
-
-const COLORS = [
-  { start: "#FF6B9D", end: "#C44569" },
-  { start: "#4FACFE", end: "#00F2FE" },
-  { start: "#43E97B", end: "#38F9D7" },
-  { start: "#FA709A", end: "#FEE140" },
-  { start: "#A8EDEA", end: "#FED6E3" },
-  { start: "#FFD89B", end: "#19547B" },
-  { start: "#667EEA", end: "#764BA2" },
-  { start: "#F093FB", end: "#F5576C" },
-  { start: "#4FACFE", end: "#00F2FE" },
-  { start: "#30CFD0", end: "#330867" },
-  { start: "#A8EDEA", end: "#FED6E3" },
-  { start: "#FDBB2D", end: "#22C1C3" },
-];
+import { WHEEL_COLORS, WHEEL_CONFIG } from "./constants";
 
 export default function Home() {
   const t = useTranslations();
@@ -41,30 +27,33 @@ export default function Home() {
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<string | null>(null);
 
-  const changeLang = (newLocale: "en" | "zh") => {
+  const changeLang = useCallback((newLocale: "en" | "zh") => {
     router.replace(pathname, { locale: newLocale });
-  };
+  }, [router, pathname]);
 
-  const addItem = () => {
-    if (inputValue.trim() && items.length < 12) {
-      setItems([...items, inputValue.trim()]);
+  const addItem = useCallback(() => {
+    if (inputValue.trim() && items.length < WHEEL_CONFIG.MAX_ITEMS) {
+      setItems(prev => [...prev, inputValue.trim()]);
       setInputValue("");
     }
-  };
+  }, [inputValue, items.length]);
 
-  const removeItem = (index: number) => {
-    if (items.length > 2) {
-      setItems(items.filter((_, i) => i !== index));
-    }
-  };
+  const removeItem = useCallback((index: number) => {
+    setItems(prev => {
+      if (prev.length > WHEEL_CONFIG.MIN_ITEMS) {
+        return prev.filter((_, i) => i !== index);
+      }
+      return prev;
+    });
+  }, []);
 
-  const spin = () => {
-    if (isSpinning || items.length < 2) return;
+  const spin = useCallback(() => {
+    if (isSpinning || items.length < WHEEL_CONFIG.MIN_ITEMS) return;
 
     setIsSpinning(true);
     setResult(null);
 
-    const spins = 5 + Math.random() * 3;
+    const spins = WHEEL_CONFIG.MIN_SPINS + Math.random() * WHEEL_CONFIG.MAX_EXTRA_SPINS;
     const extraDegrees = Math.random() * 360;
     const totalRotation = rotation + spins * 360 + extraDegrees;
 
@@ -77,28 +66,28 @@ export default function Home() {
 
       setResult(items[selectedIndex]);
       setIsSpinning(false);
-    }, 4000);
-  };
-
-  const createWheelPath = (index: number, total: number) => {
-    const angle = (2 * Math.PI) / total;
-    const startAngle = index * angle - Math.PI / 2;
-    const endAngle = startAngle + angle;
-
-    const x1 = 200 + 200 * Math.cos(startAngle);
-    const y1 = 200 + 200 * Math.sin(startAngle);
-    const x2 = 200 + 200 * Math.cos(endAngle);
-    const y2 = 200 + 200 * Math.sin(endAngle);
-
-    const largeArc = angle > Math.PI ? 1 : 0;
-
-    return `M 200 200 L ${x1} ${y1} A 200 200 0 ${largeArc} 1 ${x2} ${y2} Z`;
-  };
+    }, WHEEL_CONFIG.SPIN_DURATION);
+  }, [isSpinning, items, rotation]);
 
   // Memoize wheel paths to avoid recalculation
   const wheelPaths = useMemo(() => {
+    const createWheelPath = (index: number, total: number) => {
+      const angle = (2 * Math.PI) / total;
+      const startAngle = index * angle - Math.PI / 2;
+      const endAngle = startAngle + angle;
+
+      const x1 = 200 + 200 * Math.cos(startAngle);
+      const y1 = 200 + 200 * Math.sin(startAngle);
+      const x2 = 200 + 200 * Math.cos(endAngle);
+      const y2 = 200 + 200 * Math.sin(endAngle);
+
+      const largeArc = angle > Math.PI ? 1 : 0;
+
+      return `M 200 200 L ${x1} ${y1} A 200 200 0 ${largeArc} 1 ${x2} ${y2} Z`;
+    };
+
     return items.map((_, index) => createWheelPath(index, items.length));
-  }, [items.length]);
+  }, [items]);
 
   if (items.length === 0) return null;
 
@@ -130,7 +119,7 @@ export default function Home() {
               >
                 <defs>
                   {items.map((_, index) => {
-                    const color = COLORS[index % COLORS.length];
+                    const color = WHEEL_COLORS[index % WHEEL_COLORS.length];
                     return (
                       <linearGradient
                         key={`gradient-${index}`}
@@ -185,7 +174,7 @@ export default function Home() {
 
             <button
               onClick={spin}
-              disabled={isSpinning || items.length < 2}
+              disabled={isSpinning || items.length < WHEEL_CONFIG.MIN_ITEMS}
               className="mt-6 sm:mt-8 px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold text-lg sm:text-xl rounded-full shadow-lg transition-all transform hover:scale-105 disabled:hover:scale-100 active:scale-95"
             >
               {isSpinning ? t("spinning") : t("startSpin")}
@@ -210,11 +199,11 @@ export default function Home() {
                 onKeyDown={(e) => e.key === "Enter" && addItem()}
                 placeholder={t("inputPlaceholder")}
                 className="flex-1 px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm sm:text-base"
-                disabled={items.length >= 12}
+                disabled={items.length >= WHEEL_CONFIG.MAX_ITEMS}
               />
               <button
                 onClick={addItem}
-                disabled={!inputValue.trim() || items.length >= 12}
+                disabled={!inputValue.trim() || items.length >= WHEEL_CONFIG.MAX_ITEMS}
                 className="px-4 sm:px-6 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors text-sm sm:text-base whitespace-nowrap"
               >
                 {t("add")}
@@ -227,7 +216,7 @@ export default function Home() {
 
             <div className="space-y-2 max-h-[300px] sm:max-h-96 overflow-y-auto">
               {items.map((item, index) => {
-                const color = COLORS[index % COLORS.length];
+                const color = WHEEL_COLORS[index % WHEEL_COLORS.length];
                 return (
                   <div
                     key={index}
@@ -242,7 +231,7 @@ export default function Home() {
                     </div>
                     <button
                       onClick={() => removeItem(index)}
-                      disabled={items.length <= 2}
+                      disabled={items.length <= WHEEL_CONFIG.MIN_ITEMS}
                       className="px-2 sm:px-3 py-1 text-sm sm:text-base text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 disabled:text-gray-400 disabled:hover:bg-transparent rounded transition-colors shrink-0"
                     >
                       {t("remove")}

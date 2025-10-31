@@ -70,6 +70,9 @@ pnpm dev                 # 启动开发服务器（端口 3758）
 pnpm build              # 构建生产版本 + 生成 sitemap
 pnpm start              # 启动生产服务器
 
+# 分析
+pnpm analyze            # 分析包大小（可视化报告）
+
 # SEO
 pnpm postbuild          # 手动生成 sitemap 和 robots.txt
 pnpm seo-check          # 运行 SEO 检查

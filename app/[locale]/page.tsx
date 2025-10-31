@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
@@ -95,6 +95,11 @@ export default function Home() {
     return `M 200 200 L ${x1} ${y1} A 200 200 0 ${largeArc} 1 ${x2} ${y2} Z`;
   };
 
+  // Memoize wheel paths to avoid recalculation
+  const wheelPaths = useMemo(() => {
+    return items.map((_, index) => createWheelPath(index, items.length));
+  }, [items.length]);
+
   if (items.length === 0) return null;
 
   return (
@@ -150,7 +155,7 @@ export default function Home() {
                   return (
                     <g key={index}>
                       <path
-                        d={createWheelPath(index, items.length)}
+                        d={wheelPaths[index]}
                         fill={`url(#gradient-${index})`}
                         stroke="white"
                         strokeWidth="3"

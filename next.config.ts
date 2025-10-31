@@ -5,10 +5,15 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
   /* config options here */
-  
+
   // Performance optimizations
   compress: true,
-  
+
+  // Experimental features for better performance
+  experimental: {
+    optimizePackageImports: ['framer-motion', 'next-intl'],
+  },
+
   // Image optimization
   images: {
     formats: ["image/avif", "image/webp"],
@@ -41,7 +46,25 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: "/(.*).(jpg|jpeg|png|gif|svg|ico|webp|avif)",
+        source: "/(.*)\\.(jpg|jpeg|png|gif|svg|ico|webp|avif)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/(.*)\\.css",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/(.*)\\.js",
         headers: [
           {
             key: "Cache-Control",

@@ -48,6 +48,8 @@ Open [http://localhost:3758](http://localhost:3758) with your browser to see the
 - **Analytics**: [Vercel Analytics](https://vercel.com/analytics) & [Speed Insights](https://vercel.com/docs/speed-insights)
 - **Package Manager**: [pnpm](https://pnpm.io/)
 
+> **Note**: This project uses Next.js 16 which renamed `middleware.ts` to `proxy.ts`. See [Migration Guide](docs/MIGRATION.md) for details.
+
 ## 📁 Project Structure
 
 ```
@@ -68,7 +70,7 @@ random-picker/
 ├── docs/
 │   ├── SEO.md            # SEO optimization guide
 │   └── DEPLOYMENT.md     # Deployment guide
-├── middleware.ts         # Language detection middleware
+├── proxy.ts              # Language detection proxy (Next.js 16)
 ├── next-sitemap.config.js # Sitemap configuration
 └── next.config.ts        # Next.js configuration
 ```
@@ -208,6 +210,8 @@ pnpm lint             # Run ESLint
 - [SEO Optimization Guide](docs/SEO.md) - SEO 优化指南
 - [Deployment Guide](docs/DEPLOYMENT.md) - 部署指南
 - [Analytics Guide](docs/ANALYTICS.md) - 数据分析指南
+- [Features Overview](docs/FEATURES.md) - 功能特性总览
+- [Migration Guide](docs/MIGRATION.md) - Next.js 16 迁移指南
 
 ## 📄 License
 

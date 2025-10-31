@@ -85,7 +85,7 @@ pnpm lint               # 运行 ESLint
 | `.env.local` | 环境变量（不提交到 Git） |
 | `next-sitemap.config.js` | Sitemap 配置 |
 | `next.config.ts` | Next.js 配置 |
-| `middleware.ts` | 语言检测中间件 |
+| `proxy.ts` | 语言检测 proxy (Next.js 16) |
 | `i18n/routing.ts` | 国际化路由配置 |
 
 ## 🌍 多语言配置

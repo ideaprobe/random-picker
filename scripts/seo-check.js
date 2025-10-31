@@ -50,7 +50,7 @@ console.log('\n🌍 检查国际化文件:');
 checkFile('messages/en.json', '英文翻译文件');
 checkFile('messages/zh.json', '中文翻译文件');
 checkFile('i18n/routing.ts', 'i18n 路由配置');
-checkFile('middleware.ts', 'middleware 文件');
+checkFile('proxy.ts', 'proxy 文件 (Next.js 16)');
 
 // 检查环境变量
 console.log('\n⚙️  检查环境变量:');

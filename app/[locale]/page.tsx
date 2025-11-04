@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
-import { motion } from "framer-motion";
+import { useState, useMemo, useCallback, lazy, Suspense } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
 import { WHEEL_COLORS, WHEEL_CONFIG } from "./constants";
+
+// 懒加载动画组件，减少首屏 bundle
+const WheelSpinner = lazy(() => import("./components/WheelSpinner").then(mod => ({ default: mod.WheelSpinner })));
 
 export default function Home() {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  
+
   const getDefaultItems = () => [
     t("defaultItems.item1"),
     t("defaultItems.item2"),
@@ -109,65 +111,15 @@ export default function Home() {
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
           <div className="flex flex-col items-center">
             <div className="relative w-full max-w-[320px] sm:max-w-[400px] aspect-square">
-              <motion.svg
-                width="100%"
-                height="100%"
-                viewBox="0 0 400 400"
-                className="drop-shadow-2xl"
-                animate={{ rotate: rotation }}
-                transition={{ duration: 4, ease: "easeOut" }}
-              >
-                <defs>
-                  {items.map((_, index) => {
-                    const color = WHEEL_COLORS[index % WHEEL_COLORS.length];
-                    return (
-                      <linearGradient
-                        key={`gradient-${index}`}
-                        id={`gradient-${index}`}
-                        x1="0%"
-                        y1="0%"
-                        x2="100%"
-                        y2="100%"
-                      >
-                        <stop offset="0%" stopColor={color.start} />
-                        <stop offset="100%" stopColor={color.end} />
-                      </linearGradient>
-                    );
-                  })}
-                </defs>
-
-                {items.map((item, index) => {
-                  const angle = (360 / items.length) * index;
-                  const textAngle = angle + 180 / items.length;
-                  const textRadius = 130;
-
-                  return (
-                    <g key={index}>
-                      <path
-                        d={wheelPaths[index]}
-                        fill={`url(#gradient-${index})`}
-                        stroke="white"
-                        strokeWidth="3"
-                      />
-                      <text
-                        x="200"
-                        y="200"
-                        fill="white"
-                        fontSize="16"
-                        fontWeight="bold"
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        transform={`rotate(${textAngle} 200 200) translate(0 ${-textRadius})`}
-                      >
-                        {item}
-                      </text>
-                    </g>
-                  );
-                })}
-
-                <circle cx="200" cy="200" r="30" fill="white" stroke="#ddd" strokeWidth="2" />
-                <circle cx="200" cy="200" r="15" fill="#f59e0b" />
-              </motion.svg>
+              <Suspense fallback={
+                <svg width="100%" height="100%" viewBox="0 0 400 400" className="drop-shadow-2xl">
+                  <circle cx="200" cy="200" r="200" fill="#e5e7eb" />
+                  <circle cx="200" cy="200" r="30" fill="white" stroke="#ddd" strokeWidth="2" />
+                  <circle cx="200" cy="200" r="15" fill="#f59e0b" />
+                </svg>
+              }>
+                <WheelSpinner items={items} rotation={rotation} wheelPaths={wheelPaths} />
+              </Suspense>
 
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 w-0 h-0 border-l-15 sm:border-l-20 border-r-15 sm:border-r-20 border-t-22 sm:border-t-30 border-l-transparent border-r-transparent border-t-red-600 z-10" />
             </div>

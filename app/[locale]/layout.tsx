@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Analytics } from "./components/Analytics";
@@ -41,13 +41,13 @@ export async function generateMetadata({
     ? ["随机轮盘", "在线抽奖", "随机选择器", "转盘抽奖", "决策工具", "随机抽取", "幸运转盘", "抽奖工具"]
     : ["random wheel", "wheel spinner", "random picker", "decision maker", "raffle wheel", "spin the wheel", "random selector", "lucky wheel"];
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://random-picker-tau.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   return {
     title,
     description,
     keywords,
-    metadataBase: new URL(baseUrl),
+    metadataBase: baseUrl ? new URL(baseUrl) : undefined,
     alternates: {
       canonical: `/${locale}`,
       languages: {
@@ -102,37 +102,13 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const t = await getTranslations({ locale });
+  const description = t('description');
 
   return (
     <html lang={locale}>
       <head>
-        <meta name="description" content={locale === "zh" 
-          ? "免费在线随机轮盘抽取工具，支持自定义选项，流畅动画效果。适用于抽奖、决策、游戏等场景。无需下载，即开即用。"
-          : "Free online random wheel picker tool with customizable options and smooth animations. Perfect for raffles, decision making, and games. No download required."
-        } />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
-              name: locale === "zh" ? "随机轮盘" : "Random Wheel",
-              description:
-                locale === "zh"
-                  ? "免费在线随机轮盘抽取工具，支持自定义选项，流畅动画效果"
-                  : "Free online random wheel picker tool with customizable options and smooth animations",
-              url: `https://random-picker-tau.vercel.app/${locale}`,
-              applicationCategory: "UtilityApplication",
-              operatingSystem: "Any",
-              offers: {
-                "@type": "Offer",
-                price: "0",
-                priceCurrency: "USD",
-              },
-              inLanguage: locale === "zh" ? "zh-CN" : "en-US",
-            }),
-          }}
-        />
+        <meta name="description" content={description} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

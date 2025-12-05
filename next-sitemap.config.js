@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://random-picker-tau.vercel.app',
+  siteUrl: process.env.NEXT_PUBLIC_BASE_URL,
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   exclude: ['/api/*'],
@@ -8,15 +8,15 @@ module.exports = {
   // 国际化配置
   alternateRefs: [
     {
-      href: process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}/en` : 'https://random-picker-tau.vercel.app/en',
+      href: `${process.env.NEXT_PUBLIC_BASE_URL}/en`,
       hreflang: 'en',
     },
     {
-      href: process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}/zh` : 'https://random-picker-tau.vercel.app/zh',
+      href: `${process.env.NEXT_PUBLIC_BASE_URL}/zh`,
       hreflang: 'zh',
     },
     {
-      href: process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}/en` : 'https://random-picker-tau.vercel.app/en',
+      href: `${process.env.NEXT_PUBLIC_BASE_URL}/en`,
       hreflang: 'x-default',
     },
   ],

@@ -81,7 +81,7 @@ export async function generateMetadata({
       },
     },
     verification: {
-      google: "g8usXl5E0lXEDqyN1qgoGyZVbd1k5ZFumAteXsqzqJE",
+      google: "1VrMDcQ0pK0iwcz45ZzCK9qg6jSpnJRMX0DTjLM5Vs0",
       // yandex: "your-yandex-verification-code",
       // bing: "your-bing-verification-code",
     },

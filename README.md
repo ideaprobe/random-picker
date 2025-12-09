@@ -122,7 +122,7 @@ Supported languages:
 Create a `.env.local` file:
 
 ```bash
-NEXT_PUBLIC_BASE_URL=https://random-picker-tau.vercel.app
+NEXT_PUBLIC_BASE_URL=https://random-picker.kwayteow.xyz
 ```
 
 ### Port Configuration
@@ -224,6 +224,6 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ## 🔗 Links
 
-- **Live Demo**: [https://random-picker-tau.vercel.app](https://random-picker-tau.vercel.app)
+- **Live Demo**: [https://random-picker.kwayteow.xyz](https://random-picker.kwayteow.xyz)
 - **Documentation**: See `/docs` folder
 - **Issues**: [GitHub Issues](https://github.com/yourusername/random-picker/issues)

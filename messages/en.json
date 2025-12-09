@@ -15,5 +15,29 @@
     "item4": "Option 4",
     "item5": "Option 5",
     "item6": "Option 6"
+  },
+  "metadata": {
+    "title": "Random Wheel - Online Random Picker Tool | 随机轮盘",
+    "description": "Free online random wheel picker tool with customizable options and smooth animations. Perfect for raffles, decision making, and games. No download required.",
+    "appName": "Random Wheel",
+    "appDescription": "Free online random wheel picker tool with customizable options and smooth animations. Perfect for raffles, decision making, and games.",
+    "breadcrumbHome": "Home",
+    "keywords": {
+      "0": "random wheel",
+      "1": "wheel spinner",
+      "2": "random picker",
+      "3": "decision maker",
+      "4": "raffle wheel",
+      "5": "spin the wheel",
+      "6": "random selector",
+      "7": "lucky wheel"
+    },
+    "features": {
+      "0": "Customizable options",
+      "1": "Smooth animations",
+      "2": "Multi-language support",
+      "3": "Responsive design",
+      "4": "No registration required"
+    }
   }
 }

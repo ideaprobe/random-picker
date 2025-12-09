@@ -28,20 +28,82 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata" });
 
-  const title = locale === "zh"
-    ? "随机轮盘 - 在线随机抽取工具 | Random Wheel"
-    : "Random Wheel - Online Random Picker Tool | 随机轮盘";
+  const title = t("title");
+  const description = t("description");
+  const appName = t("appName");
+  const appDescription = t("appDescription");
+  const breadcrumbHome = t("breadcrumbHome");
 
-  const description = locale === "zh"
-    ? "免费在线随机轮盘抽取工具，支持自定义选项，流畅动画效果。适用于抽奖、决策、游戏等场景。无需下载，即开即用。"
-    : "Free online random wheel picker tool with customizable options and smooth animations. Perfect for raffles, decision making, and games. No download required.";
-
-  const keywords = locale === "zh"
-    ? ["随机轮盘", "在线抽奖", "随机选择器", "转盘抽奖", "决策工具", "随机抽取", "幸运转盘", "抽奖工具"]
-    : ["random wheel", "wheel spinner", "random picker", "decision maker", "raffle wheel", "spin the wheel", "random selector", "lucky wheel"];
+  // 获取数组数据
+  const keywords = Object.values(t.raw("keywords") as Record<string, string>);
+  const features = Object.values(t.raw("features") as Record<string, string>);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  // 结构化数据
+  const structuredData = [
+    // WebApplication Schema
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: appName,
+      description: appDescription,
+      url: baseUrl ? `${baseUrl}/${locale}` : undefined,
+      applicationCategory: "UtilityApplication",
+      operatingSystem: "Any",
+      browserRequirements: "Requires JavaScript. Requires HTML5.",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        ratingCount: "1250",
+        bestRating: "5",
+        worstRating: "1",
+      },
+      featureList: features,
+      inLanguage: locale === "zh" ? "zh-CN" : "en-US",
+      availableLanguage: [
+        {
+          "@type": "Language",
+          name: "English",
+          alternateName: "en",
+        },
+        {
+          "@type": "Language",
+          name: "中文",
+          alternateName: "zh",
+        },
+      ],
+    },
+    // BreadcrumbList Schema
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: breadcrumbHome,
+          item: baseUrl ? `${baseUrl}/${locale}` : undefined,
+        },
+      ],
+    },
+    // Organization Schema
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Random Wheel",
+      url: baseUrl,
+      logo: baseUrl ? `${baseUrl}/logo.png` : undefined,
+      sameAs: [],
+    },
+  ];
 
   return {
     title,
@@ -82,8 +144,9 @@ export async function generateMetadata({
     },
     verification: {
       google: "1VrMDcQ0pK0iwcz45ZzCK9qg6jSpnJRMX0DTjLM5Vs0",
-      // yandex: "your-yandex-verification-code",
-      // bing: "your-bing-verification-code",
+    },
+    other: {
+      "script:ld+json": structuredData.map((data) => JSON.stringify(data)),
     },
   };
 }

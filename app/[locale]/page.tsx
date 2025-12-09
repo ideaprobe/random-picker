@@ -94,7 +94,7 @@ export default function Home() {
   if (items.length === 0) return null;
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-purple-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-8">
+    <main className="min-h-screen bg-linear-to-br from-purple-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white">
@@ -195,6 +195,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

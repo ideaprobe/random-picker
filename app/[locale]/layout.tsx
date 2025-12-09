@@ -33,17 +33,78 @@ export async function generateMetadata({
 
   const title = t("title");
   const description = t("description");
-  const appName = t("appName");
-  const appDescription = t("appDescription");
-  const breadcrumbHome = t("breadcrumbHome");
 
   // 获取数组数据
   const keywords = Object.values(t.raw("keywords") as Record<string, string>);
-  const features = Object.values(t.raw("features") as Record<string, string>);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  // 结构化数据（使用 schema-dts 类型）
+  return {
+    title,
+    description,
+    keywords,
+    metadataBase: baseUrl ? new URL(baseUrl) : undefined,
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        en: `${baseUrl}/en`,
+        zh: `${baseUrl}/zh`,
+        "x-default": `${baseUrl}/en`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: locale === "zh" ? "zh_CN" : "en_US",
+      alternateLocale: locale === "zh" ? "en_US" : "zh_CN",
+      siteName: "Random Wheel",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    verification: {
+      google: "1VrMDcQ0pK0iwcz45ZzCK9qg6jSpnJRMX0DTjLM5Vs0",
+    },
+  };
+}
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
+  if (!routing.locales.includes(locale as "en" | "zh")) {
+    notFound();
+  }
+
+  const messages = await getMessages();
+  const t = await getTranslations({ locale});
+  const description = t('description');
+  const appName = t("appName");
+  const appDescription = t("appDescription");
+  const features = Object.values(t.raw("features") as Record<string, string>);
+  const breadcrumbHome = t("breadcrumbHome");
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  // 结构化数据
   const webApplicationSchema: WithContext<WebApplication> = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -90,76 +151,29 @@ export async function generateMetadata({
     logo: baseUrl ? `${baseUrl}/logo.png` : undefined,
     sameAs: [],
   };
-
-  const structuredData = [webApplicationSchema, breadcrumbSchema, organizationSchema];
-
-  return {
-    title,
-    description,
-    keywords,
-    metadataBase: baseUrl ? new URL(baseUrl) : undefined,
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        en: `${baseUrl}/en`,
-        zh: `${baseUrl}/zh`,
-        "x-default": `${baseUrl}/en`,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      locale: locale === "zh" ? "zh_CN" : "en_US",
-      alternateLocale: locale === "zh" ? "en_US" : "zh_CN",
-      siteName: "Random Wheel",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-    verification: {
-      google: "1VrMDcQ0pK0iwcz45ZzCK9qg6jSpnJRMX0DTjLM5Vs0",
-    },
-    other: {
-      "script:ld+json": structuredData.map((data) => JSON.stringify(data)),
-    },
-  };
-}
-
-export default async function LocaleLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
-  if (!routing.locales.includes(locale as "en" | "zh")) {
-    notFound();
-  }
-
-  const messages = await getMessages();
-  const t = await getTranslations({ locale });
-  const description = t('description');
-
+  
   return (
     <html lang={locale}>
       <head>
         <meta name="description" content={description} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(webApplicationSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(breadcrumbSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

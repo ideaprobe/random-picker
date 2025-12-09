@@ -96,8 +96,9 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
-  const t = await getTranslations({ locale});
-  const description = t('description');
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  
+  const description = t("description");
   const appName = t("appName");
   const appDescription = t("appDescription");
   const features = Object.values(t.raw("features") as Record<string, string>);

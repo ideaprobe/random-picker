@@ -5,6 +5,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Analytics } from "./components/Analytics";
+import type { WebApplication, BreadcrumbList, Organization, WithContext } from "schema-dts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,68 +43,55 @@ export async function generateMetadata({
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  // 结构化数据
-  const structuredData = [
-    // WebApplication Schema
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      name: appName,
-      description: appDescription,
-      url: baseUrl ? `${baseUrl}/${locale}` : undefined,
-      applicationCategory: "UtilityApplication",
-      operatingSystem: "Any",
-      browserRequirements: "Requires JavaScript. Requires HTML5.",
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
+  // 结构化数据（使用 schema-dts 类型）
+  const webApplicationSchema: WithContext<WebApplication> = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: appName,
+    description: appDescription,
+    url: baseUrl ? `${baseUrl}/${locale}` : undefined,
+    applicationCategory: "UtilityApplication",
+    operatingSystem: "Any",
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: 1250,
+      bestRating: "5",
+      worstRating: "1",
+    },
+    featureList: features,
+    inLanguage: locale === "zh" ? "zh-CN" : "en-US",
+  };
+
+  const breadcrumbSchema: WithContext<BreadcrumbList> = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: breadcrumbHome,
+        item: baseUrl ? `${baseUrl}/${locale}` : undefined,
       },
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.8",
-        ratingCount: "1250",
-        bestRating: "5",
-        worstRating: "1",
-      },
-      featureList: features,
-      inLanguage: locale === "zh" ? "zh-CN" : "en-US",
-      availableLanguage: [
-        {
-          "@type": "Language",
-          name: "English",
-          alternateName: "en",
-        },
-        {
-          "@type": "Language",
-          name: "中文",
-          alternateName: "zh",
-        },
-      ],
-    },
-    // BreadcrumbList Schema
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: breadcrumbHome,
-          item: baseUrl ? `${baseUrl}/${locale}` : undefined,
-        },
-      ],
-    },
-    // Organization Schema
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "Random Wheel",
-      url: baseUrl,
-      logo: baseUrl ? `${baseUrl}/logo.png` : undefined,
-      sameAs: [],
-    },
-  ];
+    ],
+  };
+
+  const organizationSchema: WithContext<Organization> = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Random Wheel",
+    url: baseUrl,
+    logo: baseUrl ? `${baseUrl}/logo.png` : undefined,
+    sameAs: [],
+  };
+
+  const structuredData = [webApplicationSchema, breadcrumbSchema, organizationSchema];
 
   return {
     title,

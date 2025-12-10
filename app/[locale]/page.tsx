@@ -1,18 +1,15 @@
 "use client";
 
 import { useState, useMemo, useCallback, lazy, Suspense } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import { WHEEL_COLORS, WHEEL_CONFIG } from "./constants";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
 
 // 懒加载动画组件，减少首屏 bundle
 const WheelSpinner = lazy(() => import("./components/WheelSpinner").then(mod => ({ default: mod.WheelSpinner })));
 
 export default function Home() {
   const t = useTranslations();
-  const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
 
   const defaultItems = useMemo(() => [
     t("defaultItems.item1"),
@@ -28,10 +25,6 @@ export default function Home() {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<string | null>(null);
-
-  const changeLang = useCallback((newLocale: "en" | "zh") => {
-    router.replace(pathname, { locale: newLocale });
-  }, [router, pathname]);
 
   const addItem = useCallback(() => {
     if (inputValue.trim() && items.length < WHEEL_CONFIG.MAX_ITEMS) {
@@ -100,12 +93,7 @@ export default function Home() {
           <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 dark:text-white">
             {t("title")}
           </h1>
-          <button
-            onClick={() => changeLang(locale === "en" ? "zh" : "en")}
-            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg shadow hover:shadow-md transition-all text-sm sm:text-base font-medium"
-          >
-            {locale === "en" ? "中文" : "EN"}
-          </button>
+          <LanguageSwitcher />
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">

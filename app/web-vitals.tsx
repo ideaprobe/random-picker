@@ -11,14 +11,14 @@ export function WebVitals() {
     // 无需额外代码
 
     // 方案 2: 发送到 Google Analytics 4
-    if (window.gtag) {
-      window.gtag('event', metric.name, {
-        value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
-        event_category: 'Web Vitals',
-        event_label: metric.id,
-        non_interaction: true,
-      });
-    }
+    // if (window.gtag) {
+    //   window.gtag('event', metric.name, {
+    //     value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+    //     event_category: 'Web Vitals',
+    //     event_label: metric.id,
+    //     non_interaction: true,
+    //   });
+    // }
 
     // 方案 3: 发送到自定义 API
     // fetch('/api/analytics', {
@@ -69,10 +69,3 @@ export function WebVitals() {
 }
 
 // TypeScript 类型声明
-declare global {
-  interface Window {
-    gtag?: (...args: any[]) => void;
-    Sentry?: any;
-    posthog?: unknown;
-  }
-}

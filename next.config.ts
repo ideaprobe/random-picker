@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
 
   // Performance optimizations
   compress: true,
+  productionBrowserSourceMaps: false, // 禁用生产环境 source maps
+  poweredByHeader: false, // 移除 X-Powered-By header
 
   // Experimental features for better performance
   experimental: {

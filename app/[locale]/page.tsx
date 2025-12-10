@@ -14,16 +14,16 @@ export default function Home() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const getDefaultItems = () => [
+  const defaultItems = useMemo(() => [
     t("defaultItems.item1"),
     t("defaultItems.item2"),
     t("defaultItems.item3"),
     t("defaultItems.item4"),
     t("defaultItems.item5"),
     t("defaultItems.item6"),
-  ];
+  ], [t]);
 
-  const [items, setItems] = useState<string[]>(getDefaultItems());
+  const [items, setItems] = useState<string[]>(defaultItems);
   const [inputValue, setInputValue] = useState("");
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);

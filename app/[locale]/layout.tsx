@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Analytics } from "./components/Analytics";
-import type { WebApplication, BreadcrumbList, Organization, WithContext } from "schema-dts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
+  preload: true,
+  fallback: ["system-ui", "arial"],
 });
 
 export function generateStaticParams() {
@@ -33,11 +28,66 @@ export async function generateMetadata({
 
   const title = t("title");
   const description = t("description");
+  const appName = t("appName");
+  const appDescription = t("appDescription");
+  const breadcrumbHome = t("breadcrumbHome");
 
   // 获取数组数据
   const keywords = Object.values(t.raw("keywords") as Record<string, string>);
+  const features = Object.values(t.raw("features") as Record<string, string>);
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  // 结构化数据
+  const structuredData = [
+    // WebApplication Schema
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: appName,
+      description: appDescription,
+      url: baseUrl ? `${baseUrl}/${locale}` : undefined,
+      applicationCategory: "UtilityApplication",
+      operatingSystem: "Any",
+      browserRequirements: "Requires JavaScript. Requires HTML5.",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        ratingCount: 1250,
+        bestRating: "5",
+        worstRating: "1",
+      },
+      featureList: features,
+      inLanguage: locale === "zh" ? "zh-CN" : "en-US",
+    },
+    // BreadcrumbList Schema
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: breadcrumbHome,
+          item: baseUrl ? `${baseUrl}/${locale}` : undefined,
+        },
+      ],
+    },
+    // Organization Schema
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Random Wheel",
+      url: baseUrl,
+      logo: baseUrl ? `${baseUrl}/logo.png` : undefined,
+      sameAs: [],
+    },
+  ];
 
   return {
     title,
@@ -79,6 +129,9 @@ export async function generateMetadata({
     verification: {
       google: "1VrMDcQ0pK0iwcz45ZzCK9qg6jSpnJRMX0DTjLM5Vs0",
     },
+    other: {
+      "script:ld+json": structuredData.map((data) => JSON.stringify(data)),
+    },
   };
 }
 
@@ -96,89 +149,10 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
-  const t = await getTranslations({ locale, namespace: "metadata" });
-  
-  const description = t("description");
-  const appName = t("appName");
-  const appDescription = t("appDescription");
-  const features = Object.values(t.raw("features") as Record<string, string>);
-  const breadcrumbHome = t("breadcrumbHome");
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  // 结构化数据
-  const webApplicationSchema: WithContext<WebApplication> = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: appName,
-    description: appDescription,
-    url: baseUrl ? `${baseUrl}/${locale}` : undefined,
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "Any",
-    browserRequirements: "Requires JavaScript. Requires HTML5.",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      ratingCount: 1250,
-      bestRating: "5",
-      worstRating: "1",
-    },
-    featureList: features,
-    inLanguage: locale === "zh" ? "zh-CN" : "en-US",
-  };
-
-  const breadcrumbSchema: WithContext<BreadcrumbList> = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: breadcrumbHome,
-        item: baseUrl ? `${baseUrl}/${locale}` : undefined,
-      },
-    ],
-  };
-
-  const organizationSchema: WithContext<Organization> = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Random Wheel",
-    url: baseUrl,
-    logo: baseUrl ? `${baseUrl}/logo.png` : undefined,
-    sameAs: [],
-  };
-  
   return (
     <html lang={locale}>
-      <head>
-        <meta name="description" content={description} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(webApplicationSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(breadcrumbSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
